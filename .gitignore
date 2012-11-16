@@ -1,0 +1,11 @@
+#java specific
+*.class
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+bin/*
+.classpath
+.project
+.settings/*
