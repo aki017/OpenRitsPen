@@ -8,14 +8,60 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class SocketListener{
-	static final int USE_PEN		= 0;
-	static final int CHANGE_COLOR	= 1;
-	static final int CHANGE_COLOR2	= 2;
-	static final int CHANGE_WIDTH	= 3;
-	static final int CHANGE_SPEED	= 4;
-	static final int CREATE_PEN		= 5;
-	static final int CHANGE_PEN_TOP	= 6;
-	static final int CLOSE_PEN		= 7;
+	public enum Command {
+		USE_PEN {
+			public void command(OpenRitsPen openRitsPen, String arg1, String arg2) {
+				openRitsPen.usePen(Integer.parseInt(arg1),Integer.parseInt(arg2));
+			}
+		},
+		CHANGE_COLOR {
+			public void command(OpenRitsPen openRitsPen, String arg1, String arg2) {
+				openRitsPen.changeColor(Integer.parseInt(arg1));
+			}
+		},
+		CHANGE_COLOR2 {
+			public void command(OpenRitsPen openRitsPen, String arg1, String arg2) {
+				String[] col;
+				col = arg1.split(";");
+				if (col.length == 3)
+				{
+					int r = Integer.parseInt(col[0]);
+					int g = Integer.parseInt(col[1]);
+					int b = Integer.parseInt(col[2]);
+					openRitsPen.changeColor(new Color(r, g, b));
+				}
+			}
+		},
+		CHANGE_WIDTH {
+			public void command(OpenRitsPen openRitsPen, String arg1, String arg2) {
+				openRitsPen.changeSize(Integer.parseInt(arg1));
+			}
+		},
+		CHANGE_SPEED {
+			public void command(OpenRitsPen openRitsPen, String arg1, String arg2) {
+				openRitsPen.changeSpeed(Integer.parseInt(arg1));
+			}
+		},
+		CREATE_PEN {
+			public void command(OpenRitsPen openRitsPen, String arg1, String arg2) {
+				// TODO
+			}
+		},
+		CHANGE_PEN_TOP {
+			public void command(OpenRitsPen openRitsPen, String arg1, String arg2) {
+				// TODO
+			}
+		},
+		CLOSE_PEN {
+			public void command(OpenRitsPen openRitsPen, String arg1, String arg2) {
+				// TODO
+			}
+		};
+
+		public void command(OpenRitsPen openRitsPen, String arg1, String arg2) {
+			throw new UnsupportedOperationException("There is no implementation yet.");
+		}
+	}
 
 	private OpenRitsPen openRitsPen;
 
@@ -76,41 +122,10 @@ public class SocketListener{
 	 * @param order コマンドー
 	 */
 	private void command(String arg1,String arg2,int order){
-		switch (order) {
-		case USE_PEN:
-			openRitsPen.usePen(Integer.parseInt(arg1),Integer.parseInt(arg2));
-			break;
-		case CHANGE_COLOR:
-			openRitsPen.changeColor(Integer.parseInt(arg1));
-			break;
-		case CHANGE_COLOR2:
-			String[] col;
-			col = arg1.split(";");
-			if (col.length == 3)
-			{
-				int r = Integer.parseInt(col[0]);
-				int g = Integer.parseInt(col[1]);
-				int b = Integer.parseInt(col[2]);
-				openRitsPen.changeColor(new Color(r, g, b));
-			}
-			break;
-		case CHANGE_WIDTH:
-			openRitsPen.changeSize(Integer.parseInt(arg1));
-			break;
-		case CHANGE_SPEED:
-			openRitsPen.changeSpeed(Integer.parseInt(arg1));
-			break;
-		case CREATE_PEN:
-			// TODO:未実装
-			break;
-		case CHANGE_PEN_TOP:
-			// TODO:未実装
-			break;
-		case CLOSE_PEN:
-			// TODO:未実装
-			break;
-		default:
-			break;
+		Command[] values = Command.values();
+		if (0 <= order && order < values.length)
+		{
+			values[order].command(openRitsPen, arg1, arg2);
 		}
 	}
 }
