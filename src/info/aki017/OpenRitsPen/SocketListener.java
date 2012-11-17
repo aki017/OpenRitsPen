@@ -16,9 +16,9 @@ public class SocketListener{
 	static final int CREATE_PEN		= 5;
 	static final int CHANGE_PEN_TOP	= 6;
 	static final int CLOSE_PEN		= 7;
-	
+
 	private OpenRitsPen openRitsPen;
-	
+
 	public SocketListener(OpenRitsPen openRitsPen) {
 		this.openRitsPen = openRitsPen;
 	}
@@ -52,20 +52,23 @@ public class SocketListener{
 			System.out.println("error：SocketError");
 		}
 	}
-	
+
 	/**
 	 * パースします
 	 * @param str 受信した文字列
 	 */
 	private void parse(String str){
-		String[] args = new String[3];
+		String[] args;
 		args = str.split(":");
-		
-		int order = Integer.parseInt(args[2]);
-		
-		command(args[0],args[1],order);
+
+		if (args.length == 3)
+		{
+			int order = Integer.parseInt(args[2]);
+
+			command(args[0],args[1],order);
+		}
 	}
-	
+
 	/**
 	 * コマンドー
 	 * @param arg1 第一引数
@@ -81,12 +84,15 @@ public class SocketListener{
 			openRitsPen.changeColor(Integer.parseInt(arg1));
 			break;
 		case CHANGE_COLOR2:
-			String[] col = new String[3];
+			String[] col;
 			col = arg1.split(";");
-			int r = Integer.parseInt(col[0]);
-			int g = Integer.parseInt(col[1]);
-			int b = Integer.parseInt(col[2]);
-			openRitsPen.changeColor(new Color(r, g, b));
+			if (col.length == 3)
+			{
+				int r = Integer.parseInt(col[0]);
+				int g = Integer.parseInt(col[1]);
+				int b = Integer.parseInt(col[2]);
+				openRitsPen.changeColor(new Color(r, g, b));
+			}
 			break;
 		case CHANGE_WIDTH:
 			openRitsPen.changeSize(Integer.parseInt(arg1));
