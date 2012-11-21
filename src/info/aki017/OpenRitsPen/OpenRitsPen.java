@@ -22,7 +22,7 @@ public class OpenRitsPen {
 	 * @return 成功したかどうか
 	 */
 	public boolean undo() {
-		if (lines.isEmpty()) {
+		if (!lines.isEmpty()) {
 			linesLog.add(lines.pollLast());
 			mainframe.repaint();
 			System.out.println("Undo");

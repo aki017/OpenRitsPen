@@ -3,27 +3,41 @@ package info.aki017.OpenRitsPen;
 import java.awt.Color;
 
 public class Pen {
-	static final Color[] PENCOLOR = { 
-		Color.black,
-		Color.red,
-		Color.blue,
-		Color.green,
-		Color.orange,
-		Color.pink,
-		Color.yellow,
-		Color.gray
-		};
+	public enum PenColorKind
+	{
+		BLACK(Color.black),
+		RED(Color.red),
+		BLUE(Color.blue),
+		GREEN(Color.green),
+		ORANGE(Color.orange),
+		PINK(Color.pink),
+		YELLOW(Color.yellow),
+		GRAY(Color.gray);
+
+		private final Color color;
+
+		private PenColorKind(Color color)
+		{
+			this.color = color;
+		}
+
+		public Color toColor()
+		{
+			return color;
+		}
+	}
+
 	private double x;
 	private double y;
 	private double angle;
 	private Color color;
 	private int size;
 	private int speed;
-	
+
 	public Pen(){
 		reset();
 	}
-	
+
 	/**
 	 * 初期化する
 	 */
@@ -31,11 +45,16 @@ public class Pen {
 		x = 350.0D;
 		y = 250.0D;
 		angle = 0.0D;
-		color = PENCOLOR[0];
+		color = getInitialColor();
 		size = 1;
 		speed = 200;
 	}
-	
+
+	public Color getInitialColor()
+	{
+		return PenColorKind.BLACK.toColor();
+	}
+
 	/**
 	 * ペンのx座標を指定する
 	 * @param x x座標
@@ -94,17 +113,18 @@ public class Pen {
 	public void setColor(Color color){
 		this.color = color;
 	}
-	
+
 	/**
 	 * ペンの色を指定する
 	 * @param index 色番号
 	 */
 	public void setColor(int index){
-		if(index >= 0 && index < 8){
-			setColor(PENCOLOR[index]);
+		PenColorKind[] values = PenColorKind.values();
+		if(index >= 0 && index < values.length){
+			setColor(values[index].toColor());
 		}
 	}
-	
+
 	/**
 	 * ペンの大きさを指定する
 	 * @param size サイズ
