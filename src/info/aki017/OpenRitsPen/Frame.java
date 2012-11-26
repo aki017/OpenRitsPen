@@ -60,7 +60,9 @@ public class Frame {
 
 		mainFrame.getContentPane().add(leftPanel, "Center");
 		mainFrame.getContentPane().add(drawPanel, "East");
-		mainFrame.setBounds(20, 20, 800, 700);
+		mainFrame.setLocation(20, 20);
+		mainFrame.getContentPane().setPreferredSize(new Dimension(800, 700));
+		mainFrame.pack();
 		mainFrame.setVisible(true);
 
 		System.out.println("Frame Created");
